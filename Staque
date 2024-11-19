@@ -1,0 +1,316 @@
+using namespace std;
+#include<iostream>
+class Staque {
+	class Node {
+	public:
+		int data;
+		Node* next;
+		Node* prev;
+		Node(int data, Node* next = 0,Node*prev=0) {
+			this->data = data;
+			this->next = next;
+			this->prev = prev;
+		}
+	};
+private:
+	int size;
+	Node* front;
+	Node* rear;
+
+public:
+	Staque();
+	~Staque();
+	Staque(Staque &);
+	Staque& operator=(Staque&);
+	void insertF(int);
+	void insertR(int);
+	void insert(int);
+	void deleteF();
+	void deleteL();
+	void display();
+	bool empty();
+	void push(int);
+	void remove();
+	void remove(int);
+	void remove(int,int);
+};
+
+Staque::Staque() {
+	size = 0;
+	front = rear = nullptr;
+}
+Staque::~Staque() {
+	if (!empty())deleteF();
+}
+Staque::Staque(Staque& other){
+	if (!other.empty())
+	{
+		this->front = new Node(other.front->data);
+		Node* myit = front;
+		Node* otherit = other.front->next;
+		while (otherit != nullptr) {
+			myit->next = new Node(otherit->data);
+			myit = myit->next;
+			otherit = otherit->next;
+		}
+		this->size = other.size;
+	}
+}
+Staque& Staque::operator=(Staque& other){
+	if (this != &other) {
+		other.~Staque();
+		if (!other.empty())
+		{
+			this->front = new Node(other.front->data);
+			Node* myit = front;
+			Node* otherit = other.front->next;
+			while (otherit != nullptr) {
+				myit->next = new Node(otherit->data);
+				myit = myit->next;
+				otherit = otherit->next;
+			}
+		}
+			this->size = other.size;
+	}
+	return *this;
+}
+bool Staque::empty() {
+	return size == 0;
+}
+void Staque::push(int val){
+	Node* temp = new Node(val);
+	front =rear= temp;
+	size++;
+}
+void Staque::insertF(int val) {
+	if (empty()) {
+		push(val);
+	}
+	else {
+		Node* temp = new Node(val,this->front);
+		this->front->prev = temp;
+		front = temp;
+		size++;
+	}
+}
+void Staque::insertR(int val){
+	if (empty()) {
+		push(val);
+	}
+	else {
+		Node* temp1 = this->front;
+		while (temp1->next!=nullptr) {
+			temp1 = temp1->next;
+		}
+		Node* temp = new Node(val);
+		temp1->next = temp;
+		temp->prev = temp1;
+		rear = temp;
+		size++;
+	}
+}
+void Staque::insert(int val) {
+	val % 2 == 0 ? Staque::insertF(val) : Staque::insertR(val);
+}
+void Staque::deleteF() {
+	if (empty())
+	{
+		cerr << "the staque is empty ";
+	}
+	else {
+		if (size == 1) {
+			Node* temp = front;
+			front = temp->next;
+			delete temp;
+			size--;
+		}
+		else {
+			Node* temp = front;
+			Node*temp2=front->next;
+			temp->next = nullptr;
+			delete temp;
+			front = temp2;
+			size--;
+		}
+	}
+}
+//delete the last item for odd numbers 
+void Staque::deleteL() {
+	if (empty())
+	{
+		cerr << "the staque is empty ";
+	}
+	else {
+		if (size == 1) {
+			Node* temp = front;
+			front = temp->next;
+			delete temp;
+			size--;
+		}
+		else {
+			Node* temp = rear;
+			Node* temp2 = rear->prev;
+			temp2->next = temp->next;
+			temp->prev = nullptr;
+			delete temp;
+			rear = temp2;
+			size--;
+		}
+	}
+}
+void Staque::display() {
+	Node* temp = front;
+	while (temp != nullptr) {
+		cout << temp->data << " ";
+		temp = temp->next;
+	}
+	cout << endl;
+}
+void Staque::remove() {
+	// Remove the front node
+	if (empty()) {
+		cerr << "The staque is empty. Nothing to remove.\n";
+	}
+	else {
+		deleteF(); 
+		cout << "Front node removed.\n";
+	}
+}
+
+void Staque::remove(int value) {
+	// Remove the first occurrence of a node with the specified value
+	if (empty()) {
+		cerr << "The staque is empty. Cannot remove value " << value << ".\n";
+		return;
+	}
+
+	Node* current = front;
+	while (current != nullptr) {
+		if (current->data == value) {
+			if (current == front) {
+				deleteF();
+			}
+			else if (current == rear) {
+				deleteL();
+			}
+			else {
+				Node* prevNode = current->prev;
+				Node* nextNode = current->next;
+				prevNode->next = nextNode;
+				nextNode->prev = prevNode;
+				delete current;
+				size--;
+			}
+			cout << "Node with value " << value << " removed.\n";
+			return;
+		}
+		current = current->next;
+	}
+
+	cerr << "Value " << value << " not found in the staque.\n";
+}
+
+void Staque::remove(int low, int high) {
+	// Remove all nodes with values in the range [low, high]
+	if (empty()) {
+		cerr << "The staque is empty. Cannot remove nodes in range [" << low << ", " << high << "].\n";
+		return;
+	}
+
+	Node* current = front;
+	while (current != nullptr) {
+		Node* nextNode = current->next; 
+		if (current->data >= low && current->data <= high) {
+			if (current == front) {
+				deleteF();
+			}
+			else if (current == rear) {
+				deleteL();
+			}
+			else {
+				Node* prevNode = current->prev;
+				Node* nextNode = current->next;
+				prevNode->next = nextNode;
+				nextNode->prev = prevNode;
+				delete current;
+				size--;
+			}
+		}
+		current = nextNode; 
+	}
+	cout << "Nodes in range [" << low << ", " << high << "] removed.\n";
+}
+
+int main() {
+	// Test case 1: Basic operations
+	Staque s1;
+	cout << "Test Case 1: Basic Operations\n";
+	s1.insert(10);
+	s1.insert(20);
+	s1.insert(30);
+	s1.insert(40);
+	cout << "Initial Staque:\n";
+	s1.display();
+
+	s1.remove(); // Remove the front node
+	cout << "After removing front node:\n";
+	s1.display();
+
+	s1.remove(30); // Remove value 30
+	cout << "After removing value 30:\n";
+	s1.display();
+
+	s1.remove(10, 40); // Remove all nodes in range [10, 40]
+	cout << "After removing nodes in range [10, 40]:\n";
+	s1.display();
+
+	cout << "---------------------------------\n";
+
+	// Test case 2: Mixed operations
+	Staque s2;
+	cout << "Test Case 2: Mixed Operations\n";
+	s2.insert(5);
+	s2.insert(15);
+	s2.insert(25);
+	s2.insert(35);
+	s2.insert(45);
+	cout << "Initial Staque:\n";
+	s2.display();
+
+	s2.remove(); // Remove the front node
+	cout << "After removing front node:\n";
+	s2.display();
+
+	s2.remove(5); // Remove value 5
+	cout << "After removing value 5:\n";
+	s2.display();
+
+	s2.remove(20, 50); // Remove all nodes in range [20, 50]
+	cout << "After removing nodes in range [20, 50]:\n";
+	s2.display();
+
+	cout << "---------------------------------\n";
+
+	// Test case 3: Edge cases
+	Staque s3;
+	cout << "Test Case 3: Edge Cases\n";
+	s3.insert(100);
+	s3.insert(200);
+	s3.insert(300);
+	cout << "Initial Staque:\n";
+	s3.display();
+
+	s3.remove(); // Remove the front node
+	cout << "After removing front node:\n";
+	s3.display();
+
+	s3.remove(500); // Try to remove a non-existent value
+	cout << "After trying to remove non-existent value 500:\n";
+	s3.display();
+
+	s3.remove(0, 150); // Remove all nodes in range [0, 150]
+	cout << "After removing nodes in range [0, 150]:\n";
+	s3.display();
+
+	return 0;
+}
