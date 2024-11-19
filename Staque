@@ -266,28 +266,29 @@ int main() {
 
 	cout << "---------------------------------\n";
 
-	// Test case 2: Mixed operations
-	Staque s2;
-	cout << "Test Case 2: Mixed Operations\n";
-	s2.insert(5);
-	s2.insert(15);
-	s2.insert(25);
-	s2.insert(35);
-	s2.insert(45);
-	cout << "Initial Staque:\n";
-	s2.display();
+	 // Test Case 2: Alternating Even and Odd Numbers
+    	Staque s2;
+    	cout << "Test Case 2: Alternating Even and Odd Numbers\n";
+    	s2.insert(4);
+    	s2.insert(7);
+    	s2.insert(2);
+    	s2.insert(9);
+    	s2.insert(6);
+    	s2.insert(11);
+    	cout << "Initial Staque:\n";
+    	s2.display();
 
-	s2.remove(); // Remove the front node
-	cout << "After removing front node:\n";
-	s2.display();
+    	s2.remove(); // Remove the front node
+    	cout << "After removing front node:\n";
+    	s2.display();
 
-	s2.remove(5); // Remove value 5
-	cout << "After removing value 5:\n";
-	s2.display();
+    	s2.remove(9); // Remove value 9
+    	cout << "After removing value 9:\n";
+    	s2.display();
 
-	s2.remove(20, 50); // Remove all nodes in range [20, 50]
-	cout << "After removing nodes in range [20, 50]:\n";
-	s2.display();
+    	s2.remove(2, 8); // Remove all nodes in range [2, 8]
+    	cout << "After removing nodes in range [2, 8]:\n";
+   	s2.display();
 
 	cout << "---------------------------------\n";
 
