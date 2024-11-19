@@ -242,76 +242,96 @@ void Staque::remove(int low, int high) {
 }
 
 int main() {
-	// Test case 1: Basic operations
-	Staque s1;
-	cout << "Test Case 1: Basic Operations\n";
-	s1.insert(10);
-	s1.insert(20);
-	s1.insert(30);
-	s1.insert(40);
+	//test case 1:try to write from keyboard
+	int choice, value;
+	Staque sq1;
+	while (1) {
+		cout << endl << "\nMenu:";
+		cout << "\n1.Insert ";
+		cout << "\n2.Delete even number";
+		cout << "\n3.Delete odd number";
+		cout << "\n4.Display staque";
+		cout << "\n5.Exit " << endl;
+		cout << "\nEnter choice : ";
+		cin >> choice;
+		switch (choice) {
+		case 1:
+			cout << "\nEnter integer to insert: ";
+			cin >> value;
+			if (value % 2 != 0) {
+				sq.insertR(value);
+			}
+			else {
+				sq1.insertF(value);
+			}
+			break;
+		case 2:
+			sq1.deleteF();
+			break;
+		case 3:
+			sq1.deleteL();
+			break;
+		case 4:
+			sq1.display();
+			break;
+		case 5:
+			exit(0);
+		}
+	}
+
+
+
+	// Test case 2: Basic operations
+	Staque sq2;
+	cout << "Test Case 2: Basic Operations\n";
+	sq2.insert(10);
+	sq2.insert(20);
+	sq2.insert(30);
+	sq2.insert(40);
 	cout << "Initial Staque:\n";
-	s1.display();
+	sq2.display();
 
-	s1.remove(); // Remove the front node
+	sq2.remove(); // Remove the front node
 	cout << "After removing front node:\n";
-	s1.display();
+	sq2.display();
 
-	s1.remove(30); // Remove value 30
+	sq2.remove(30); // Remove value 30
 	cout << "After removing value 30:\n";
-	s1.display();
+	sq2.display();
 
-	s1.remove(10, 40); // Remove all nodes in range [10, 40]
+	sq2.remove(10, 40); // Remove all nodes in range [10, 40]
 	cout << "After removing nodes in range [10, 40]:\n";
-	s1.display();
+	sq2.display();
 
 	cout << "---------------------------------\n";
 
-	 // Test Case 2: Alternating Even and Odd Numbers
-    	Staque s2;
-    	cout << "Test Case 2: Alternating Even and Odd Numbers\n";
-    	s2.insert(4);
-    	s2.insert(7);
-    	s2.insert(2);
-    	s2.insert(9);
-    	s2.insert(6);
-    	s2.insert(11);
-    	cout << "Initial Staque:\n";
-    	s2.display();
-
-    	s2.remove(); // Remove the front node
-    	cout << "After removing front node:\n";
-    	s2.display();
-
-    	s2.remove(9); // Remove value 9
-    	cout << "After removing value 9:\n";
-    	s2.display();
-
-    	s2.remove(2, 8); // Remove all nodes in range [2, 8]
-    	cout << "After removing nodes in range [2, 8]:\n";
-   	s2.display();
-
-	cout << "---------------------------------\n";
-
-	// Test case 3: Edge cases
-	Staque s3;
-	cout << "Test Case 3: Edge Cases\n";
-	s3.insert(100);
-	s3.insert(200);
-	s3.insert(300);
+	// Test Case 3: Alternating Even and Odd Numbers
+	Staque sq3;
+	cout << "Test Case 3: Alternating Even and Odd Numbers\n";
+	sq3.insert(4);
+	sq3.insert(7);
+	sq3.insert(2);
+	sq3.insert(9);
+	sq3.insert(6);
+	sq3.insert(11);
 	cout << "Initial Staque:\n";
-	s3.display();
+	sq3.display();
 
-	s3.remove(); // Remove the front node
+	sq3.remove(); // Remove the front node
 	cout << "After removing front node:\n";
-	s3.display();
+	sq3.display();
 
-	s3.remove(500); // Try to remove a non-existent value
-	cout << "After trying to remove non-existent value 500:\n";
-	s3.display();
+	sq3.remove(9); // Remove value 9
+	cout << "After removing value 9:\n";
+	sq3.display();
 
-	s3.remove(0, 150); // Remove all nodes in range [0, 150]
-	cout << "After removing nodes in range [0, 150]:\n";
-	s3.display();
+	sq3.remove(2, 8); // Remove all nodes in range [2, 8]
+	cout << "After removing nodes in range [2, 8]:\n";
+	sq3.display();
+
+	cout << "---------------------------------\n";
+
+
 
 	return 0;
 }
